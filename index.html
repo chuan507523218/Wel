@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Image to ASCII</title>
+    <style>
+        pre {
+            font-family: monospace;
+            white-space: pre-wrap;
+            line-height: 0.6;
+            letter-spacing: 0.6px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" id="imageInput">
+    <label for="widthInput">Width:</label>
+    <input type="number" id="widthInput" value="100">
+    <label for="heightInput">Height:</label>
+    <input type="number" id="heightInput" value="100">
+    <pre id="asciiOutput"></pre>
+
+    <script>
+        // ASCII字符映射表，根据灰度值从高到低排序
+        const ASCII_CHARS = ['@', '#', '8', '&', 'o', ':', '*', '.', ' '];
+
+        // 加载图片并处理
+        function handleImage() {
+            const imageInput = document.getElementById('imageInput');
+            const file = imageInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function () {
+                const img = new Image();
+                img.src = reader.result;
+                img.onload = function () {
+                    const widthInput = document.getElementById('widthInput');
+                    const heightInput = document.getElementById('heightInput');
+                    const canvas = document.createElement('canvas');
+                    canvas.width = parseInt(widthInput.value);
+                    canvas.height = parseInt(heightInput.value);
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const asciiStr = mapToAscii(imageData.data, canvas.width);
+                    showAscii(asciiStr);
+                };
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // 将像素数据映射为ASCII字符
+        function mapToAscii(data, width) {
+            let asciiStr = '';
+            for (let i = 0; i < data.length; i += 4) {
+                // 计算灰度值（R、G、B三个通道取平均值）
+                const gray = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                // 使用255除以字符表长度，以便将0-255范围的灰度值映射到字符表的索引
+                const index = Math.floor((gray / 255) * (ASCII_CHARS.length - 1));
+                asciiStr += ASCII_CHARS[index];
+
+                // 换行
+                if ((i / 4 + 1) % width === 0) {
+                    asciiStr += '\n';
+                }
+            }
+            return asciiStr;
+        }
+
+        // 在页面上显示ASCII字符画
+        function showAscii(asciiStr) {
+            const asciiOutput = document.getElementById('asciiOutput');
+            asciiOutput.textContent = asciiStr;
+        }
+
+        // 监听图片输入框和宽度、高度输入框的变化
+        const imageInput = document.getElementById('imageInput');
+        imageInput.addEventListener('change', handleImage);
+
+        const widthInput = document.getElementById('widthInput');
+        widthInput.addEventListener('input', handleImage);
+
+        const heightInput = document.getElementById('heightInput');
+        heightInput.addEventListener('input', handleImage);
+    </script>
+</body>
+
+</html>
