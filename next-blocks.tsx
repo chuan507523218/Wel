@@ -4,6 +4,8 @@ import { Canvas, useThree } from "@react-three/fiber"
 import { OrbitControls, Environment } from "@react-three/drei"
 import { useRef, useState, useEffect } from "react"
 import * as THREE from "three"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faGithub, faTelegram, faTwitter } from "@fortawesome/free-brands-svg-icons"
 
 const isMobile = () => {
   if (typeof window === 'undefined') return false
@@ -164,7 +166,35 @@ const Scene = () => {
 
 export default function Component() {
   return (
-    <div className="w-full h-screen bg-gray-900">
+    <div className="w-full h-screen bg-gray-900 relative">
+      {/* 右上角社交媒体图标 */}
+      <div className="absolute top-4 right-4 flex space-x-4">
+        <a 
+          href="https://github.com/yourusername" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-white hover:text-gray-400 text-2xl"
+        >
+          <FontAwesomeIcon icon={faGithub} />
+        </a>
+        <a 
+          href="https://t.me/yourusername" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-white hover:text-gray-400 text-2xl"
+        >
+          <FontAwesomeIcon icon={faTelegram} />
+        </a>
+        <a 
+          href="https://twitter.com/yourusername" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-white hover:text-gray-400 text-2xl"
+        >
+          <FontAwesomeIcon icon={faTwitter} />
+        </a>
+      </div>
+
       <Canvas camera={{ position: [10.047021, -0.127436, -11.137374], fov: 50 }}>
         <Scene />
       </Canvas>
