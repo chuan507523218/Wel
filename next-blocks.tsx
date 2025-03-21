@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Environment } from "@react-three/drei"
 import { useRef, useState, useEffect } from "react"
 import * as THREE from "three"
+import { Avatar, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGithub, faTelegram, faTwitter } from "@fortawesome/free-brands-svg-icons"
 
