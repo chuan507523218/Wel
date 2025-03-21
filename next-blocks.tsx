@@ -196,7 +196,7 @@ export default function Component() {
       </div>
 
       {/* 添加图片 */}
-      <div className="absolute top-[calc(50%-50px)] left-1/2 transform -translate-x-1/2 z-10">
+      <div className="absolute top-[calc(50%-300px)] left-1/2 transform -translate-x-1/2 z-10">
         <img src="/AI.png" alt="Your Image" className="w-24 h-auto"/>
       </div>
 
