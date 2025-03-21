@@ -35,38 +35,38 @@ const BoxWithEdges = ({ position }) => {
   )
 }
 
-const BoxLetter = ({ letter, position }) => {
+const BoxLetter = ({ letter, position, scaleFactor }) => {
   const group = useRef()
 
   const getLetterShape = (letter) => {
     const shapes = {
       N: [
-        [1,0,0,0,1],
-        [1,1,0,0,1],
-        [1,0,1,0,1],
-        [1,0,0,1,1],
-        [1,0,0,0,1],
+        [1, 0, 0, 0, 1],
+        [1, 1, 0, 0, 1],
+        [1, 0, 1, 0, 1],
+        [1, 0, 0, 1, 1],
+        [1, 0, 0, 0, 1],
       ],
       E: [
-        [1,1,1],
-        [1,0,0],
-        [1,1,0],
-        [1,0,0],
-        [1,1,1],
+        [1, 1, 1],
+        [1, 0, 0],
+        [1, 1, 0],
+        [1, 0, 0],
+        [1, 1, 1],
       ],
       X: [
-        [1,0,0,0,1],
-        [0,1,0,1,0],
-        [0,0,1,0,0],
-        [0,1,0,1,0],
-        [1,0,0,0,1],
+        [1, 0, 0, 0, 1],
+        [0, 1, 0, 1, 0],
+        [0, 0, 1, 0, 0],
+        [0, 1, 0, 1, 0],
+        [1, 0, 0, 0, 1],
       ],
       T: [
-        [1,1,1],
-        [0,1,0],
-        [0,1,0],
-        [0,1,0],
-        [0,1,0],
+        [1, 1, 1],
+        [0, 1, 0],
+        [0, 1, 0],
+        [0, 1, 0],
+        [0, 1, 0],
       ],
     }
     return shapes[letter] || shapes['N'] // Default to 'N' if letter is not found
@@ -75,7 +75,7 @@ const BoxLetter = ({ letter, position }) => {
   const letterShape = getLetterShape(letter)
 
   return (
-    <group ref={group} position={position} scale={['1', '1', '1']} className="sm:scale-75 md:scale-100 lg:scale-125">
+    <group ref={group} position={position} scale={[scaleFactor, scaleFactor, scaleFactor]}>
       {letterShape.map((row, i) =>
         row.map((cell, j) => {
           if (cell) {
@@ -131,13 +131,15 @@ const Scene = () => {
     setIsMobileDevice(isMobile())
   }, [])
 
+  const scaleFactor = isMobileDevice ? 0.5 : 1 // 设备为移动端时缩小为 0.5，其他设备保持为 1
+
   return (
     <>
       <group position={[-0.5, 0, 0]} rotation={[0, Math.PI / 1.5, 0]}>
-        <BoxLetter letter="N" position={[-3.75, 0, 0]} />
-        <BoxLetter letter="E" position={[-1.25, 0, 0]} />
-        <BoxLetter letter="X" position={[1.25, 0, 0]} />
-        <BoxLetter letter="T" position={[3.75, 0, 0]} />
+        <BoxLetter letter="N" position={[-3.75, 0, 0]} scaleFactor={scaleFactor} />
+        <BoxLetter letter="E" position={[-1.25, 0, 0]} scaleFactor={scaleFactor} />
+        <BoxLetter letter="X" position={[1.25, 0, 0]} scaleFactor={scaleFactor} />
+        <BoxLetter letter="T" position={[3.75, 0, 0]} scaleFactor={scaleFactor} />
       </group>
       <OrbitControls 
         ref={orbitControlsRef}
