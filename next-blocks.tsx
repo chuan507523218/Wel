@@ -1,12 +1,9 @@
 "use client"
 
-import { Canvas } from "@react-three/fiber"
+import { Canvas, useThree } from "@react-three/fiber"
 import { OrbitControls, Environment } from "@react-three/drei"
 import { useRef, useState, useEffect } from "react"
 import * as THREE from "three"
-import { Avatar, IconButton } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faGithub, faTelegram, faTwitter } from "@fortawesome/free-brands-svg-icons"
 
 const isMobile = () => {
   if (typeof window === 'undefined') return false
@@ -37,6 +34,8 @@ const BoxWithEdges = ({ position }) => {
 }
 
 const BoxLetter = ({ letter, position }) => {
+  const group = useRef()
+
   const getLetterShape = (letter) => {
     const shapes = {
       N: [
@@ -68,32 +67,44 @@ const BoxLetter = ({ letter, position }) => {
         [0,1,0],
       ],
     }
-    return shapes[letter] || shapes['N']
+    return shapes[letter] || shapes['N'] // Default to 'N' if letter is not found
   }
 
   const letterShape = getLetterShape(letter)
 
   return (
-    <group position={position}>
+    <group ref={group} position={position}>
       {letterShape.map((row, i) =>
         row.map((cell, j) => {
           if (cell) {
             let xOffset = j * 0.5 - (letter === 'T' ? 1 : letter === 'E' ? 0.5 : letter === 'X' || letter === 'N' ? 1 : 0.75)
             
             if (letter === 'N') {
-              if (j === 0) xOffset = -0.5;
-              else if (j === 1) xOffset = 0;
-              else if (j === 2) xOffset = 0.25;
-              else if (j === 3) xOffset = 0.5;
-              else if (j === 4) xOffset = 1;
+              if (j === 0) {
+                xOffset = -0.5;
+              } else if (j === 1) {
+                xOffset = 0;
+              } else if (j === 2) {
+                xOffset = 0.25;
+              } else if (j === 3) {
+                xOffset = 0.5;
+              } else if (j === 4) {
+                xOffset = 1;
+              }
             }
             
             if (letter === 'X') {
-              if (j === 0) xOffset = -1;
-              else if (j === 1) xOffset = -0.75;
-              else if (j === 2) xOffset = -0.25;
-              else if (j === 3) xOffset = 0.25;
-              else if (j === 4) xOffset = 0.5;
+              if (j === 0) {
+                xOffset = -1;
+              } else if (j === 1) {
+                xOffset = -0.75;
+              } else if (j === 2) {
+                xOffset = -0.25;
+              } else if (j === 3) {
+                xOffset = 0.25;
+              } else if (j === 4) {
+                xOffset = 0.5;
+              }
             }
             
             return (
@@ -133,9 +144,13 @@ const Scene = () => {
         enableRotate
         autoRotate
         autoRotateSpeed={2}
+        rotation={[Math.PI, 0, 0]}
       />
+      
       <ambientLight intensity={0.5} />
+      
       <directionalLight position={[5, 5, 5]} intensity={0.5} color="#ffffff" />
+      
       <Environment 
         files={isMobileDevice 
           ? "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/download3-7FArHVIJTFszlXm2045mQDPzsZqAyo.jpg"
@@ -149,35 +164,7 @@ const Scene = () => {
 
 export default function Component() {
   return (
-    <div className="w-full h-screen bg-gray-900 relative">
-      {/* 右上角社交媒体图标 */}
-      <div className="absolute top-4 right-4 flex space-x-4">
-        <a 
-          href="https://github.com/yourusername" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="text-white hover:text-gray-400 text-2xl"
-        >
-          <FontAwesomeIcon icon={faGithub} />
-        </a>
-        <a 
-          href="https://t.me/yourusername" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="text-white hover:text-gray-400 text-2xl"
-        >
-          <FontAwesomeIcon icon={faTelegram} />
-        </a>
-        <a 
-          href="https://twitter.com/yourusername" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="text-white hover:text-gray-400 text-2xl"
-        >
-          <FontAwesomeIcon icon={faTwitter} />
-        </a>
-      </div>
-
+    <div className="w-full h-screen bg-gray-900">
       <Canvas camera={{ position: [10.047021, -0.127436, -11.137374], fov: 50 }}>
         <Scene />
       </Canvas>
