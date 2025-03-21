@@ -133,8 +133,8 @@ const Scene = () => {
 
   const scaleFactor = isMobileDevice ? 0.5 : 1 // 设备为移动端时缩小为 0.5，其他设备保持为 1
 
-  // 根据缩放因子动态调整字母之间的间距
-  const positionOffsets = isMobileDevice ? 1.5 : 2.5; // 适当减小手机端字母之间的间距
+  // 根据设备类型动态调整字母位置
+  const positionOffsets = isMobileDevice ? 1.25 : 2.5; // 适当减小手机端字母之间的间距
 
   return (
     <>
