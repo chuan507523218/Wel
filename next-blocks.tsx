@@ -133,13 +133,16 @@ const Scene = () => {
 
   const scaleFactor = isMobileDevice ? 0.5 : 1 // 设备为移动端时缩小为 0.5，其他设备保持为 1
 
+  // 根据缩放因子动态调整字母之间的间距
+  const positionOffsets = isMobileDevice ? 1.5 : 2.5; // 适当减小手机端字母之间的间距
+
   return (
     <>
       <group position={[-0.5, 0, 0]} rotation={[0, Math.PI / 1.5, 0]}>
-        <BoxLetter letter="N" position={[-3.75, 0, 0]} scaleFactor={scaleFactor} />
-        <BoxLetter letter="E" position={[-1.25, 0, 0]} scaleFactor={scaleFactor} />
-        <BoxLetter letter="X" position={[1.25, 0, 0]} scaleFactor={scaleFactor} />
-        <BoxLetter letter="T" position={[3.75, 0, 0]} scaleFactor={scaleFactor} />
+        <BoxLetter letter="N" position={[-positionOffsets * 2, 0, 0]} scaleFactor={scaleFactor} />
+        <BoxLetter letter="E" position={[-positionOffsets, 0, 0]} scaleFactor={scaleFactor} />
+        <BoxLetter letter="X" position={[positionOffsets, 0, 0]} scaleFactor={scaleFactor} />
+        <BoxLetter letter="T" position={[positionOffsets * 2, 0, 0]} scaleFactor={scaleFactor} />
       </group>
       <OrbitControls 
         ref={orbitControlsRef}
