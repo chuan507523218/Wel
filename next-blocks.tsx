@@ -75,7 +75,7 @@ const BoxLetter = ({ letter, position }) => {
   const letterShape = getLetterShape(letter)
 
   return (
-    <group ref={group} position={position}>
+    <group ref={group} position={position} scale={['1', '1', '1']} className="sm:scale-75 md:scale-100 lg:scale-125">
       {letterShape.map((row, i) =>
         row.map((cell, j) => {
           if (cell) {
