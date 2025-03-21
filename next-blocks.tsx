@@ -168,7 +168,7 @@ export default function Component() {
   return (
     <div className="w-full h-screen bg-gray-900 relative">
       {/* 右上角社交媒体图标 */}
-      <div className="absolute top-4 right-4 flex space-x-4">
+      <div className="absolute top-4 right-4 flex space-x-4 z-50">
         <a 
           href="https://github.com/yourusername" 
           target="_blank" 
